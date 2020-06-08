@@ -1,0 +1,294 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/back_end/template/panel.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="content">
+        <!--Table Başlangıç -->
+        <div class="right_col" role="main">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Carpark Table</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Ayar1(Eklenecek)</a>
+                                        </li>
+                                        <li><a href="#">Ayar2(Eklenecek)</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <!--Search başlangıç -->
+                            <h:form>
+                                <div class="col-xs-2 col-md-2">
+                                    <div>
+                                        <br/>
+                                        <h:inputText styleClass="form-control" id="txtAra" value="#{carparkController.bul}" a:placeholder="Ara">
+                                            <f:ajax event="keyup" execute="txtAra" render="carpark-table"></f:ajax>
+                                        </h:inputText> 
+                                    </div>
+                                </div>
+                            </h:form>
+                            <!--Search Bitiş -->
+                            <br></br>
+
+                            <h:form id="carpark-table">
+                                <h:dataTable id="datatable-checkbox" styleClass="table table-striped table-bordered bulk_action" value="#{carparkController.clist}" var="carpark">
+                                    <h:column>
+                                        <div class="btn-group">
+                                            <h:commandButton styleClass="btn btn-sm btn-info" value="Düzenle" action="#{carparkController.updateForm(carpark)}">
+                                                <f:ajax render="carpark-table carpark-form" execute="@this" />
+                                            </h:commandButton>
+
+                                            <h:commandButton onclick="$('.modal').modal('show')" action="#{carparkController.deleteConfirm(carpark)}" styleClass="btn btn-sm btn-danger" value="SİL">
+                                                <f:ajax render=":sil_modalf :sil_modal" execute="@this" />
+                                            </h:commandButton>
+                                        </div>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">ID</f:facet>
+                                            #{carpark.carpark_id}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">CARPARK NAME</f:facet>
+                                            #{carpark.carpark_name}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">CAPACITY</f:facet>
+                                            #{carpark.carpark_capacity}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">CITY</f:facet>
+                                            #{carpark.carpark_city.city_name}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">COUNTRY</f:facet>
+                                            #{carpark.carpark_country.country_name}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">ADDRESS</f:facet>
+                                            #{carpark.carpark_address}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">POPULARITY(1-10)</f:facet>
+                                            #{carpark.carpark_popularity}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">EXTRA SERVICES</f:facet>
+                                        <ul>
+                                            <ui:repeat value="#{carpark.carparkServices}" var="service">
+                                                <li>#{service.service_name}</li>
+                                            </ui:repeat>
+                                        </ul>
+                                    </h:column>
+
+                                </h:dataTable> 
+                                <!--Table Sonu -->
+                                <!--Pagination Button Başlangıç -->
+                                <div class="btn-group">
+                                    <h:commandButton action="#{carparkController.ilk()}" value="İlk" styleClass="btn btn-light"/>
+                                    <h:commandButton action="#{carparkController.geri()}" value="Geri" styleClass="btn btn-outline-info"/>
+                                    <h:commandButton action="#{carparkController.ileri()}" value="İleri" styleClass="btn btn-outline-info"/>
+                                    <h:commandButton action="#{carparkController.son()}" value="Son" styleClass="btn btn-light"/>
+                                </div>
+                                <br></br>
+                                Page #{carparkController.page} of #{carparkController.pageCount}
+                                <!--Pagination Button Bitiş -->
+                            </h:form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Form Başlangıç -->
+            <div class="row" >
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Carpark Form <small>(Tablonuzu buradan düzenleyebilirsiniz.)</small></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a  class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Settings 1</a>
+                                        </li>
+                                        <li><a href="#">Settings 2</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <br />
+                            <h:form id="carpark-form" class="form-horizontal form-label-left">
+
+                                <div class="form-group">
+                                    <h:inputHidden value="#{carparkController.carpark.carpark_id}"/>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="carpark-name">Otopark Adı <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <h:inputText styleClass="form-control col-md-7 col-xs-12" value="#{carparkController.carpark.carpark_name}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="carpark-capacity">Kapasite <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <h:inputText styleClass="form-control col-md-7 col-xs-12" value="#{carparkController.carpark.carpark_capacity}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="carpark-city">Bulunduğu Şehir <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <h:selectOneMenu class="select2_single form-control col-md-7 col-xs-12"  id="selectCity" value="#{carparkController.carpark.carpark_city}" converter="cityConverter">
+                                            <f:selectItems value="#{carparkController.cityController.clist}" var="city" itemValue="#{city}" itemLabel="#{city.city_name}"/>
+                                        </h:selectOneMenu>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="carpark-country">Bulunduğu Ülke <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <h:selectOneMenu class="select2_single form-control col-md-7 col-xs-12"  id="selectCountry" value="#{carparkController.carpark.carpark_country}" converter="countryConverter" >
+                                            <f:selectItems value="#{carparkController.countryController.clist}" var="country" itemValue="#{country}" itemLabel="#{country.country_name}"/>
+                                        </h:selectOneMenu>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="carpark-address">Adres <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <h:inputTextarea required="required" class="form-control" value="#{carparkController.carpark.carpark_address}" ></h:inputTextarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="carpark-popularity">Popülarite(1-10) <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <h:inputText styleClass="form-control col-md-7 col-xs-12" value="#{carparkController.carpark.carpark_popularity}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="carpark-services">Hizmetler <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <h:selectManyMenu style="height: 100px" value="#{carparkController.carpark.carparkServices}" styleClass="custom-select col-md-12 col-xs-12" converter="extraservicesConverter">
+                                            <f:selectItems value="#{carparkController.extraServicesController.elist}" var="extraServices" itemValue="#{extraServices}" itemLabel="#{extraServices.service_name}"/>
+                                        </h:selectManyMenu>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                        <div class="btn-group">
+                                            <h:commandButton rendered="#{carparkController.carpark.carpark_id != 0}" styleClass="btn btn-info" value="Güncelle" action="#{carparkController.update}">                       
+                                                <f:ajax execute="carpark-form" render="carpark-form carpark-table"/>
+                                            </h:commandButton>   
+
+                                            <h:commandButton rendered="#{carparkController.carpark.carpark_id ==0}" styleClass="btn btn-primary" value="Ekle" action="#{carparkController.create}">
+                                                <f:ajax execute="carpark-form" render="carpark-form carpark-table"/>
+                                            </h:commandButton>
+
+                                            <h:commandButton rendered="#{carparkController.carpark.carpark_id != 0}" styleClass="btn btn-secondary" value="Formu Temizle" action="#{carparkController.clearForm}">
+                                                <f:ajax execute="@this" render="carpark-form carpark-table"/>
+                                            </h:commandButton>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Form Bitiş -->
+
+            <!--Silme Onay Modal Başlangıç -->
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+
+                        <h:panelGroup id="sil_modal" class="modal-content">
+                            <h:form id="sil_modalf">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel"><strong>Silme Onayı</strong></h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Silmek İstediğinize Emin misiniz?</p>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>Carpark Name</th>
+                                                <th>Capacity</th>
+                                                <th>City</th>
+                                                <th>Country</th>
+                                                <th>Address</th>
+                                                <th>Popularity</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>#{carparkController.carpark.carpark_id}</td>
+                                                <td>#{carparkController.carpark.carpark_name}</td>
+                                                <td>#{carparkController.carpark.carpark_capacity}</td>
+                                                <td>#{carparkController.carpark.carpark_city.city_name}</td>
+                                                <td>#{carparkController.carpark.carpark_country.country_name}</td>
+                                                <td>#{carparkController.carpark.carpark_address}</td>
+                                                <td>#{carparkController.carpark.carpark_popularity}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                                    <h:commandButton  onclick="$('.modal').modal('hide')" action="#{carparkController.delete}"  value="Sil" styleClass="btn btn-danger">
+                                        <f:ajax render="carpark-table carpark-form" execute="@this" />
+                                    </h:commandButton>
+                                </div>
+                            </h:form>
+                        </h:panelGroup>
+
+                    </div>
+                </div>
+            </div>
+            <!--Silme Onay Modal Bitiş -->
+        </div>
+    </ui:define>
+</ui:composition>
+
+
+
+
+
+

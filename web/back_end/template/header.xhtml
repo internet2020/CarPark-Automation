@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+
+
+    <!--  <div class="container body">
+          <div class="main_container"> -->
+    <div class="col-md-3 left_col">
+        <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+                <a href="" class="site_title"><span>Yönetim Paneli</span></a>
+            </div>
+
+            <div class="clearfix"></div>
+
+
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                <div class="menu_section">
+
+                    <ul class="nav side-menu">
+
+                        <li><a href="admin.xhtml"><i class="fa fa-home"></i>Ana Sayfa</a></li>
+                        <li><a href="hakkimizdaAyarlar.xhtml"><i class="fa fa-info"></i>Hakkımızda</a></li>
+
+
+                        <li><a><i class="fa fa-cogs"></i>Ayarlar<span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+
+                                <li><a><i class="fa fa-database"></i>Veritabanı Ayarları<span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a><i class="fa fa-users"></i>User<span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li><a href="user.xhtml">Staff(Personel)<span class=""></span></a></li>
+                                                <li><a href="customer.xhtml">Customer(Müşteri)<span class=""></span></a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="privilege.xhtml">Privilege(Yetki)<span class="fa fa-chain"></span></a></li>
+                                        <li><a href="parkTransaction.xhtml">Park Transaction(Park Hareket)<span class=""></span></a></li>
+                                        <li><a href="country.xhtml">Country(Ülke)<span class="fa fa-globe"></span></a></li>
+                                        <li><a href="city.xhtml">City(Şehir)<span class="fa fa-building"></span></a></li>
+                                        <li><a href="carpark.xhtml">Carpark(Otopark)<span class="fa fa-car"></span></a></li>
+                                        <li><a href="parkPackage.xhtml">Park Package(Park Paketi)<span class="fa fa-warehouse"></span></a></li>
+                                        <li><a href="extraservices.xhtml">Extra Services(Otopark Hizmetleri)<span class="fa fa-plus-circle"></span></a></li>
+
+                                    </ul>
+                                </li>
+                                <li><a href="document.xhtml">Dosya İşlemleri<span class="fa fa-file"></span></a></li>
+                                <li><a href="genelAyarlar.xhtml">Genel Ayarları</a></li>
+                                <li><a href="iletisimAyarlar.xhtml">İletişim Ayarları</a></li> 
+                                <li><a href="apiAyarlar.xhtml">API Ayarları</a></li>
+                                <li><a href="sosyalMedyaAyarlar.xhtml">Sosyal Medya Ayarları</a></li>  
+                                <li><a href="mailAyarlar.xhtml">Mail Ayarları</a></li> 
+
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            <!-- /sidebar menu -->
+
+            <!-- /menu footer buttons -->
+
+            <div class="sidebar-footer hidden-small">
+                <h:form>
+                    <a data-toggle="tooltip" data-placement="top" title="Settings">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                    </a>
+                    <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                        <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                    </a>
+                    <a data-toggle="tooltip" data-placement="top" title="Lock">
+                        <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                    </a>
+
+                    <h:commandLink  action="/front-end-ortak/logout?faces-redirect=true" >
+                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                    </h:commandLink>
+                </h:form>
+            </div>
+
+            <!-- /menu footer buttons -->
+        </div>
+    </div>
+
+    <!-- top navigation -->
+    <div class="top_nav">
+        <div class="nav_menu">
+            <nav>
+                <div class="nav toggle">
+                    <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                </div>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="">
+                        <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <img src="resources/images/img.jpg" alt="">#{sessionScope.valid_user.user_name} #{sessionScope.valid_user.user_surname}</img>
+                            <span class=" fa fa-angle-down"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-usermenu pull-right">
+                            <li><a href="javascript:void(0)"> Profile<span class="label label-success pull-right">Bakımda</span></a></li>
+
+                            <h:form>
+                                <li><h:commandLink  action="/front-end-ortak/logout?faces-redirect=true" value="Güvenli Çıkış" >
+                                        <i class="fa fa-fw fa-sign-out"></i>
+                                    </h:commandLink></li>
+                            </h:form>
+                        </ul>
+                    </li>
+
+                    <li role="presentation" class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-envelope-o"></i>
+                            <span class="badge bg-green">1</span>
+                        </a>
+                        <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                            <li>
+                                <a>
+                                    <span class="image"><img src="resources/images/img.jpg" alt="Profile Image" /></span>
+                                    <span>
+                                        <span>Kenan İnce</span>
+                                        <span class="time">3 mins ago</span>
+                                    </span>
+                                    <span class="message">
+                                        Carpark sistemin çok güzel olmuş. Tebrikler!
+                                    </span>
+                                </a>
+                            </li>
+
+
+
+                            <li>
+                                <div class="text-center">
+                                    <a>
+                                        <strong>See All Alerts</strong>
+                                        <i class="fa fa-angle-right"></i>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- /top navigation -->
+
+</ui:composition>
+
