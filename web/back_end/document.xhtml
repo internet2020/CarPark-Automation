@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/back_end/template/panel.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="content">
+        <!--Table Başlangıç -->
+        <div class="right_col" role="main">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>File Table</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Ayar1(Eklenecek)</a>
+                                        </li>
+                                        <li><a href="#">Ayar2(Eklenecek)</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <!--Search başlangıç -->
+                            <h:form>
+                                <div class="col-xs-2 col-md-2">
+                                    <div>
+                                        <br/>
+                                        <h:inputText styleClass="form-control" id="txtAra" value="#{documentController.bul}" a:placeholder="Ara">
+                                            <f:ajax event="keyup" execute="txtAra" render="document-table"></f:ajax>
+                                        </h:inputText> 
+                                    </div>
+                                </div>
+                            </h:form>
+                            <!--Search Bitiş -->
+                            <br></br>
+                            <h:form id="document-table">
+                                <h:dataTable id="datatable-checkbox" styleClass="table table-striped table-bordered bulk_action" value="#{documentController.documentList}" var="d">
+                                    <h:column>
+                                        <f:facet name="header">ID</f:facet>
+                                            #{d.file_id}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">NAME</f:facet>
+                                            #{d.file_name}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">PATH</f:facet>
+                                            #{d.file_path}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">TYPE</f:facet>
+                                            #{d.file_type}
+                                    </h:column>
+                                     <h:column>
+                                        <f:facet name="header">CARPARK</f:facet>
+                                            #{d.file_carpark.carpark_name}
+                                    </h:column>
+                                     <h:column>
+                                        <f:facet name="header">USER</f:facet>
+                                            #{d.file_user.user_name}
+                                    </h:column>
+                                    <h:column>
+                                        <h:panelGroup layout="block" rendered="#{d.file_type.contains('image')}">
+                                            <h:graphicImage width="100" value="/file/#{d.file_name}"/>
+                                        </h:panelGroup>
+                                        <h:panelGroup layout="block" rendered="#{d.file_type.contains('application')}">
+                                            <a href="/file/#{d.file_name}">#{d.file_name}</a>
+                                        </h:panelGroup>
+                                    </h:column>
+                                </h:dataTable> 
+
+                                <div class="btn-group">
+                                    <h:commandButton action="#{documentController.ilk()}" value="İlk" styleClass="btn btn-light"/>
+                                    <h:commandButton action="#{documentController.geri()}" value="Geri" styleClass="btn btn-outline-info"/>
+                                    <h:commandButton action="#{documentController.ileri()}" value="İleri" styleClass="btn btn-outline-info"/>
+                                    <h:commandButton action="#{documentController.son()}" value="Son" styleClass="btn btn-light"/>
+                                </div>
+                                <br></br>
+                                Page #{documentController.page} of #{documentController.pageCount}
+                            </h:form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Form Başlangıç -->
+            <div class="row" >
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Document Form <small>(Tablonuzu buradan düzenleyebilirsiniz.)</small></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a  class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Settings 1</a>
+                                        </li>
+                                        <li><a href="#">Settings 2</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <br />
+                            <h:form  enctype="multipart/form-data" id="document-form" class="form-horizontal form-label-left">
+
+                                <div class="form-group">
+                                    <h:inputHidden value="#{parkTransactionController.parkTransaction.park_id}"/>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="parkTransaction-user-name">Personel <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <h:selectOneMenu class="select2_single form-control col-md-7 col-xs-12"  id="selectCustomer" value="#{documentController.docoument.file_user}" converter="userConverter">
+                                            <f:selectItems value="#{documentController.userController.getUlist(1)}" var="user" itemValue="#{user}" itemLabel="#{user.user_name}"/>
+                                        </h:selectOneMenu>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="document-carpark-name">Otopark <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <h:selectOneMenu class="select2_single form-control col-md-7 col-xs-12"  id="selectCarpark" value="#{documentController.docoument.file_carpark}" converter="carparkConverter">
+                                            <f:selectItems value="#{documentController.carparkController.clist}" var="carpark" itemValue="#{carpark}" itemLabel="#{carpark.carpark_name}"/>
+                                        </h:selectOneMenu>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="document-document">Dosya <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <h:inputFile value="#{documentController.doc}" styleClass="form-control col-md-7 col-xs-12"/>
+                                    </div>
+                                </div>
+
+
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                        <div class="btn-group">
+                                            <h:commandButton action="#{documentController.upload}" value="Upload" styleClass="btn-btn-primary"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Form Bitiş -->
+        </div>
+    </ui:define>
+</ui:composition>
+
+
+
+
+
+

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    <head>
+        <title>CarXpark - Yönetim Paneli Giriş</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="resources/images/icon2.png" rel="icon"></link>
+        <link rel="stylesheet" type="text/css" href="resources/vendor/bootstrap/css/bootstrap.min.css"></link>
+        <link rel="stylesheet" type="text/css" href="resources/fonts/font-awesome-4.7.0/css/font-awesome.min.css"></link>
+        <link rel="stylesheet" type="text/css" href="resources/fonts/iconic/css/material-design-iconic-font.min.css"></link>
+        <link rel="stylesheet" type="text/css" href="resources/vendor/animate/animate.css"></link>
+        <link rel="stylesheet" type="text/css" href="resources/vendor/css-hamburgers/hamburgers.min.css"></link>
+        <link rel="stylesheet" type="text/css" href="resources/vendor/animsition/css/animsition.min.css"></link>
+        <link rel="stylesheet" type="text/css" href="resources/vendor/select2/select2.min.css"></link>
+        <link rel="stylesheet" type="text/css" href="resources/vendor/daterangepicker/daterangepicker.css"></link>
+        <link rel="stylesheet" type="text/css" href="resources/css/util.css"></link>
+        <link rel="stylesheet" type="text/css" href="resources/css/main.css"></link>
+    </head>
+    <body>
+
+        <div class="limiter">
+            <div class="container-login100" style="background-image: url('resources/images/adminlogin.png');">
+                <div class="wrap-login100">
+                    <h:form class="login100-form validate-form">
+                        <h:messages styleClass="alert alert-danger alert" />
+                        <span class="login100-form-logo">
+                            <i class="zmdi zmdi-account"></i>
+                        </span>
+
+                        <span class="login100-form-title p-b-34 p-t-27">
+                            CarXpark Panel
+                        </span>
+
+                        <div class="wrap-input100 validate-input" data-validate = "Kullanıcı Adı Girin!">
+                            <h:inputText class="input100" a:placeholder="Kullanıcı Adı" value="#{loginController.user.user_username}" />
+                            <span class="focus-input100" data-placeholder="&#xf207;"></span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input" data-validate="Şifre Girin!">
+                            <h:inputSecret class="input100" a:placeholder="Şifre" value="#{loginController.user.user_password}" />
+                            <span class="focus-input100" data-placeholder="&#xf191;"></span>
+                        </div>
+
+
+                        <div class="container-login100-form-btn">
+                            <h:commandButton  class="login100-form-btn" value="Giriş" action="#{loginController.loginAdmin()}"/>
+
+                        </div>
+
+                        <div class="text-center p-t-90">
+                            <a class="txt1" href="#">
+                                Şifremi Unuttum
+                            </a>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="dropDownSelect1"></div>
+
+
+        <script src="resources/vendor/jquery/jquery-3.2.1.min.js"></script>
+
+        <script src="resources/vendor/animsition/js/animsition.min.js"></script>
+        <script src="resources/vendor/bootstrap/js/popper.js"></script>
+        <script src="resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <script src="resources/vendor/select2/select2.min.js"></script>
+        <script src="resources/vendor/daterangepicker/moment.min.js"></script>
+        <script src="resources/vendor/daterangepicker/daterangepicker.js"></script>
+        <script src="resources/vendor/countdowntime/countdowntime.js"></script>
+        <script src="resources/js/main.js"></script>
+    </body>
+</html>

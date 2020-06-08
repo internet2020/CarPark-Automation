@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/back_end/template/panel.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="content">
+        <!--Table Başlangıç -->
+        <div class="right_col" role="main">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>ExtraServices Table</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Ayar1(Eklenecek)</a>
+                                        </li>
+                                        <li><a href="#">Ayar2(Eklenecek)</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <!--Search başlangıç -->
+                            <h:form>
+                                <div class="col-xs-2 col-md-2">
+                                    <div>
+                                        <br/>
+                                        <h:inputText styleClass="form-control" id="txtAra" value="#{extraServicesController.bul}" a:placeholder="Ara">
+                                            <f:ajax event="keyup" execute="txtAra" render="extraServices-table"></f:ajax>
+                                        </h:inputText> 
+                                    </div>
+                                </div>
+                            </h:form>
+                            <br></br>
+                            <!--Search Bitiş -->
+                            <h:form id="extraServices-table">
+                                <h:dataTable id="datatable-checkbox" styleClass="table table-striped table-bordered bulk_action" value="#{extraServicesController.elist}" var="extraServices">
+                                    <h:column>
+                                        <div class="btn-group">
+                                            <h:commandButton styleClass="btn btn-sm btn-info" value="Düzenle" action="#{extraServicesController.updateForm(extraServices)}">
+                                                <f:ajax render="extraServices-table extraServices-form" execute="@this" />
+                                            </h:commandButton>
+
+                                            <h:commandButton onclick="$('.modal').modal('show')" action="#{extraServicesController.deleteConfirm(extraServices)}" styleClass="btn btn-sm btn-danger" value="SİL">
+                                                <f:ajax render=":sil_modalf :sil_modal" execute="@this" />
+                                            </h:commandButton>
+                                        </div>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">ID</f:facet>
+                                            #{extraServices.service_id}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">SERVICE NAME</f:facet>
+                                            #{extraServices.service_name}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">SERVICE COST(₺)</f:facet>
+                                        <span class="label label-danger">  #{extraServices.service_cost}(₺)</span>
+                                    </h:column>
+                                </h:dataTable> 
+                                <!--Table Sonu -->
+                                <!--Pagination Button Başlangıç -->
+                                <div class="btn-group">
+                                    <h:commandButton action="#{extraServicesController.ilk()}" value="İlk" styleClass="btn btn-light"/>
+                                    <h:commandButton action="#{extraServicesController.geri()}" value="Geri" styleClass="btn btn-outline-info"/>
+                                    <h:commandButton action="#{extraServicesController.ileri()}" value="İleri" styleClass="btn btn-outline-info"/>
+                                    <h:commandButton action="#{extraServicesController.son()}" value="Son" styleClass="btn btn-light"/>
+                                </div>
+                                <br></br>
+                                Page #{extraServicesController.page} of #{extraServicesController.pageCount}
+                                <!--Pagination Button Bitiş -->
+                            </h:form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Form Başlangıç -->
+            <div class="row" >
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Extra Services Form <small>(Tablonuzu buradan düzenleyebilirsiniz.)</small></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a  class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Settings 1</a>
+                                        </li>
+                                        <li><a href="#">Settings 2</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <br />
+                            <h:form id="extraServices-form" class="form-horizontal form-label-left">
+
+                                <div class="form-group">
+                                    <h:inputHidden value="#{extraServicesController.extraServices.service_id}"/>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="service-name">Hizmet Adı <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <h:inputText styleClass="form-control col-md-7 col-xs-12" value="#{extraServicesController.extraServices.service_name}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="service-cost">Hizmet Bedeli(₺) <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <h:inputText styleClass="form-control col-md-7 col-xs-12" value="#{extraServicesController.extraServices.service_cost}"/>
+                                    </div>
+                                </div>
+
+
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                        <div class="btn-group">
+                                            <h:commandButton rendered="#{extraServicesController.extraServices.service_id != 0}" styleClass="btn btn-info" value="Güncelle" action="#{extraServicesController.update}">                       
+                                                <f:ajax execute="extraServices-form" render="extraServices-form extraServices-table"/>
+                                            </h:commandButton>   
+
+                                            <h:commandButton rendered="#{extraServicesController.extraServices.service_id ==0}" styleClass="btn btn-primary" value="Ekle" action="#{extraServicesController.create}">
+                                                <f:ajax execute="extraServices-form" render="extraServices-form extraServices-table"/>
+                                            </h:commandButton>
+
+                                            <h:commandButton rendered="#{extraServicesController.extraServices.service_id != 0}" styleClass="btn btn-secondary" value="Formu Temizle" action="#{extraServicesController.clearForm}">
+                                                <f:ajax execute="@this" render="extraServices-form extraServices-table"/>
+                                            </h:commandButton>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Form Bitiş -->
+
+            <!--Silme Onay Modal Başlangıç -->
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+
+                        <h:panelGroup id="sil_modal" class="modal-content">
+                            <h:form id="sil_modalf">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel"><strong>Silme Onayı</strong></h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Silmek İstediğinize Emin misiniz?</p>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>Service Name</th>
+                                                <th>Service Cost</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>#{extraServicesController.extraServices.service_id}</td>
+                                                <td>#{extraServicesController.extraServices.service_name}</td>
+                                                <td>#{extraServicesController.extraServices.service_cost}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                                    <h:commandButton  onclick="$('.modal').modal('hide')" action="#{extraServicesController.delete}"  value="Sil" styleClass="btn btn-danger">
+                                        <f:ajax render="extraServices-form extraServices-table" execute="@this" />
+                                    </h:commandButton>
+                                </div>
+                            </h:form>
+                        </h:panelGroup>
+
+                    </div>
+                </div>
+            </div>
+            <!--Silme Onay Modal Bitiş -->
+        </div>
+    </ui:define>
+</ui:composition>
+
+
+
+
+
+

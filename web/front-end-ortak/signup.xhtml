@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/front-end-ortak/template/panel.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="content">
+
+
+        <!-- HOME -->
+        <section class="home-section section-hero inner-page overlay bg-image"
+                 style="background-image: url('resources/images/header.jpg');" id="home-section">
+            <div class="container">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-12">
+                        <div class="mb-5 text-center">
+                            <h1 class="text-white font-weight-bold">Kayıt Formu</h1>
+                            <p>Size hizmet vermek için sabırsızlanıyoruz fakat bir kaç sorumuz olacak :)</p>
+                        </div>
+                        <div class=" mb-5 text-center">
+                            <div class="s-12 m-12 l-3 center">
+                                <a href="customerlogin.xhtml" class="btn btn-light btn-lg">Zaten Hesabım Var</a>
+                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="site-section" id="next-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-4 col-md-4">
+
+                    </div>
+                    <div class="col-xs-10 col-md-12 col-md-push-4">
+                        <h:form id="customer-form"  class="">
+
+                            <div class="row form-group">
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    <label class="text-black" for="Ad">Adınız</label>
+                                    <h:inputText class="form-control required " a:placeholder="Kenan"   title="Ad" value="#{userController.user.user_name}"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="text-black" for="soyad">Soyad</label>
+                                    <h:inputText class="form-control required " a:placeholder="İnce"   title="Soyad" value="#{userController.user.user_surname}"/>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    <label class="text-black" for="kullaniciAdi">Kullanıcı Adı</label>
+                                    <h:inputText class="form-control required " a:placeholder="kenanince1"   title="Kullanıcı Adı" value="#{userController.user.user_username}"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="text-black" for="sifre">Şifre</label>
+                                    <h:inputText class=" form-control required " a:placeholder="AbCxYz123"   title="Şifre" value="#{userController.user.user_password}"/>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+
+                                <div class="col-md-12">
+                                    <label class="text-black" for="email">Telefon</label>
+                                    <h:inputText class="form-control required " a:placeholder="0512 345 67 89"   title="Cep Telefon" value="#{userController.user.phone}"/>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+
+                                <div class="col-md-12">
+                                    <label class="text-black" for="email">Email</label>
+                                    <h:inputText class="form-control required " a:placeholder="kenan.ince@inonu.edu.tr"   title="Mail" value="#{userController.user.user_mail}"/>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    <label class="text-black" for="fname">Yaş</label>
+                                    <h:inputText class="form-control required " a:placeholder="35"   title="Yaş" value="#{userController.user.user_age}"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="text-black" for="lname">Cinsiyet</label>
+                                    <h:selectOneMenu class="select2_single form-control col-md-12 col-xs-12 required " id="selectStatus" value="#{userController.user.user_gender}">
+                                        <f:selectItem itemLabel="Erkek" itemValue="Erkek"></f:selectItem>
+                                        <f:selectItem itemLabel="Kadın" itemValue="Kadın"></f:selectItem>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    <label class="text-black" for="fname">Şehir</label>
+                                    <h:selectOneMenu class="select2_single form-control col-md-12 col-xs-12 required "  id="selectCity" value="#{userController.user.city}" converter="cityConverter">
+                                        <f:selectItems value="#{userController.cityController.clist}" var="city" itemValue="#{city}" itemLabel="#{city.city_name}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="text-black" for="lname">Ülke</label>
+                                    <h:selectOneMenu  class="select2_single form-control col-md-12 col-xs-12 required"  id="selectCountry" value="#{userController.user.country}" converter="countryConverter" >
+                                        <f:selectItems value="#{userController.countryController.clist}" var="country" itemValue="#{country}" itemLabel="#{country.country_name}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <label class="text-black" for="message">Adres</label>
+                                    <h:inputTextarea style="height: 100px" a:placeholder="Malatya-Elazığ yolu 11.km İnönü Üniversitesi Mühendislik Fakültesi" required="required" class="required message form-control" value="#{userController.user.user_address}" ></h:inputTextarea>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <h:commandButton  class="submit-form btn btn-primary btn-md text-white" value="Kayıt Ol" action="#{userController.createCustomer}">
+                                    </h:commandButton>
+
+                                </div>
+                            </div>
+
+
+                        </h:form>
+                    </div>
+                    <div class="col-xs-4 col-md-4 col-md-pull-2">
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        
+
+
+    </ui:define>
+</ui:composition>
