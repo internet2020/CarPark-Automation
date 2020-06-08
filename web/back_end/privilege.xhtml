@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/back_end/template/panel.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="content">
+        <!--Table Başlangıç -->
+        <div class="right_col" role="main">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Privilege Table</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Ayar1(Eklenecek)</a>
+                                        </li>
+                                        <li><a href="#">Ayar2(Eklenecek)</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <!--Search başlangıç -->
+                            <h:form>
+                                <div class="col-xs-2 col-md-2">
+                                    <div>
+                                        <br/>
+                                        <h:inputText styleClass="form-control" id="txtAra" value="#{privilegeController.bul}" a:placeholder="Ara">
+                                            <f:ajax event="keyup" execute="txtAra" render="privilege-table"></f:ajax>
+                                        </h:inputText> 
+                                    </div>
+                                </div>
+                            </h:form>
+                            <br></br>
+                            <!--Search Bitiş -->
+                            <h:form id="privilege-table">
+
+                                <h:dataTable id="datatable-checkbox" styleClass="table table-striped table-bordered bulk_action" value="#{privilegeController.plist}" var="privilege">
+                                    <h:column>
+                                        <div class="btn-group">
+                                            <h:commandButton styleClass="btn btn-sm btn-info" value="Düzenle" action="#{privilegeController.updateForm(privilege)}">
+                                                <f:ajax render="privilege-table privilege-form" execute="@this" />
+                                            </h:commandButton>
+
+                                            <h:commandButton onclick="$('.modal').modal('show')" action="#{privilegeController.deleteConfirm(privilege)}" styleClass="btn btn-sm btn-danger" value="SİL">
+                                                <f:ajax render=":sil_modalf :sil_modal" execute="@this" />
+                                            </h:commandButton>
+                                        </div>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">ID</f:facet>
+                                            #{privilege.privilege_id}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">PRIVILEGE NAME</f:facet>
+                                            #{privilege.privilege_name}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">PRIVILEGE DESCRIPTION</f:facet>
+                                            #{privilege.privilege_description}
+                                    </h:column>
+                                </h:dataTable> 
+                                <!--Table Sonu -->
+                                <!--Pagination Button Başlangıç -->
+                                <div class="btn-group">
+                                    <h:commandButton action="#{privilegeController.ilk()}" value="İlk" styleClass="btn btn-light"/>
+                                    <h:commandButton action="#{privilegeController.geri()}" value="Geri" styleClass="btn btn-outline-info"/>
+                                    <h:commandButton action="#{privilegeController.ileri()}" value="İleri" styleClass="btn btn-outline-info"/>
+                                    <h:commandButton action="#{privilegeController.son()}" value="Son" styleClass="btn btn-light"/>
+                                </div>
+                                <br></br>
+                                Page #{privilegeController.page} of #{privilegeController.pageCount}
+                                <!--Pagination Button Bitiş -->
+                            </h:form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Form Başlangıç -->
+            <div class="row" >
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Privilege Form <small>(Tablonuzu buradan düzenleyebilirsiniz.)</small></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a  class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Settings 1</a>
+                                        </li>
+                                        <li><a href="#">Settings 2</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <br />
+                            <h:form id="privilege-form" class="form-horizontal form-label-left">
+
+                                <div class="form-group">
+                                    <h:inputHidden value="#{privilegeController.privilege.privilege_id}"/>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="privilege-name">Yetki Adı <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <h:inputText styleClass="form-control col-md-7 col-xs-12" value="#{privilegeController.privilege.privilege_name}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="privilege-description">Açıklaması <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <h:inputText styleClass="form-control col-md-7 col-xs-12" value="#{privilegeController.privilege.privilege_description}"/>
+                                    </div>
+                                </div>
+
+
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                        <div class="btn-group">
+                                            <h:commandButton rendered="#{privilegeController.privilege.privilege_id != 0}" styleClass="btn btn-info" value="Güncelle" action="#{privilegeController.update}">                       
+                                                <f:ajax execute="privilege-form" render="privilege-form privilege-table"/>
+                                            </h:commandButton>   
+
+                                            <h:commandButton rendered="#{privilegeController.privilege.privilege_id ==0}" styleClass="btn btn-primary" value="Ekle" action="#{privilegeController.create}">
+                                                <f:ajax execute="privilege-form" render="privilege-form privilege-table"/>
+                                            </h:commandButton>
+
+                                            <h:commandButton rendered="#{privilegeController.privilege.privilege_id != 0}" styleClass="btn btn-secondary" value="Formu Temizle" action="#{privilegeController.clearForm}">
+                                                <f:ajax execute="@this" render="privilege-form privilege-table"/>
+                                            </h:commandButton>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Form Bitiş -->
+
+            <!--Silme Onay Modal Başlangıç -->
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+
+                        <h:panelGroup id="sil_modal" class="modal-content">
+                            <h:form id="sil_modalf">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel"><strong>Silme Onayı</strong></h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Silmek İstediğinize Emin misiniz?</p>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>Privilege Name</th>
+                                                <th>Privilege Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>#{privilegeController.privilege.privilege_id}</td>
+                                                <td>#{privilegeController.privilege.privilege_name}</td>
+                                                <td>#{privilegeController.privilege.privilege_description}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                                    <h:commandButton  onclick="$('.modal').modal('hide')" action="#{privilegeController.delete}"  value="Sil" styleClass="btn btn-danger">
+                                        <f:ajax render="privilege-form privilege-table" execute="@this" />
+                                    </h:commandButton>
+                                </div>
+                            </h:form>
+                        </h:panelGroup>
+
+                    </div>
+                </div>
+            </div>
+            <!--Silme Onay Modal Bitiş -->
+        </div>
+    </ui:define>
+</ui:composition>
+
+
+
+
+
+

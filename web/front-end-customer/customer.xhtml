@@ -1,0 +1,321 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/front-end-customer/template/panel.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="content">
+
+        <section class="home-section section-hero overlay bg-image" style="background-image: url('resources/images/header2.jpg');" id="home-section">
+
+            <div class="container">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-12">
+                        <div class="mb-5 text-center">
+                            <h1 class="text-white font-weight-bold">Hoşgeldin #{sessionScope.valid_user.user_name}! </h1>
+                            <p>Aşağı kaydırarak aracını park edebilirsin :)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </section>
+
+        <!--Otopark Listeleme Başlangıç -->
+
+        <section id="otopark" class="site-section">
+            <div class="container">
+
+                <div class="row mb-5 justify-content-center">
+                    <div class="col-md-7 text-center">
+                        <h2 class="section-title mb-2">#{carparkController.clist.size()} Otopark Listelendi </h2>
+                        <a href="#islem" class="btn btn-danger border-width-2 d-none d-lg-inline-block">Forma Git</a>
+                    </div>
+                </div>
+                <!--Search başlangıç -->
+                <h:form>
+                    <div class="col-xs-12 col-md-12">
+                        <div>
+                            <br/>
+                            <h:inputText styleClass="form-control" id="txtAra" value="#{carparkController.bul}" a:placeholder="Ara">
+                                <f:ajax event="keyup" execute="txtAra" render="carpark-table"></f:ajax>
+                            </h:inputText> 
+                        </div>
+                    </div>
+                </h:form>
+                <hr></hr>
+                <!--Search Bitiş -->
+
+                <div class="mb-5">
+                    <h:form id="carpark-table">
+                        <h:dataTable  width="1200" value="#{carparkController.clist}" var="carpark">
+
+                            <div class="row align-items-start job-item border-bottom pb-3 mb-3 pt-3">
+                                <div  class="col-md-2">
+                                    <h:column>
+                                        <a href="job-single.html"><img src="resources/images/featured-listing-1.jpg" alt="Image" class="img-fluid"></img></a>
+                                    </h:column>
+                                </div>
+                                <div class="col-md-4">
+                                    <h:column>
+                                        <f:facet name="header">Otopark</f:facet>
+                                        <span class="badge badge-success px-2 py-1 mb-3">Müsait</span>
+
+                                        <h2><a href="#otopark">#{carpark.carpark_name}</a> </h2>
+                                        <p class="meta">Popülarite <strong>#{carpark.carpark_popularity}</strong></p>
+                                        <hr></hr>
+                                    </h:column>
+                                </div>
+                                <div class="col-md-3 text-left">
+                                    <h:column>
+                                        <f:facet name="header">Konum</f:facet>
+                                        <h3>#{carpark.carpark_city.city_name}</h3>
+                                        <span class="meta">#{carpark.carpark_country.country_name}</span>
+
+                                    </h:column>
+                                </div>
+                                <div class="col-md-3 text-md-right">
+                                    <h:column>
+                                        <f:facet name="header">Ekstra Hizmetler</f:facet>
+                                        <ul>
+                                            <ui:repeat value="#{carpark.carparkServices}" var="service">
+                                                <li><strong class="text-black">#{service.service_name}</strong></li>
+                                            </ui:repeat>
+                                        </ul>
+                                    </h:column>
+                                </div>
+                            </div>
+
+                        </h:dataTable> 
+                    </h:form>
+                </div>
+                <h:form>
+                    <!--Pagination Button Başlangıç -->
+                    <div class="btn-group">
+                        <h:commandButton action="#{parkPackageController.ilk()}" value="İlk" styleClass="btn btn-danger"/>
+                        <h:commandButton action="#{parkPackageController.geri()}" value="Geri" styleClass="btn btn-outline-info"/>
+                        <h:commandButton action="#{parkPackageController.ileri()}" value="İleri" styleClass="btn btn-outline-dark"/>
+                        <h:commandButton action="#{parkPackageController.son()}" value="Son" styleClass="btn btn-primary"/>
+                    </div>
+                    <br></br>
+                    Page #{parkPackageController.page} of #{parkPackageController.pageCount}
+                    <!--Pagination Button Bitiş -->
+                </h:form>
+            </div>
+        </section>
+        <!--Otopark Listeleme Bitiş -->
+        <section id="contact" class="py-5 bg-image overlay-primary fixed overlay" style="background-image: url('resources/images/header2.jpg');">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-12 center">
+                        <h2 class="text-white">Pratik Park</h2>
+                        <p class="mb-0 text-white lead">Aşağıdaki formu doldurarak dilediğiniz otoparkımızı kullanabilirsiniz!
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+
+        <section id="islem" class="site-section">
+            <div class="container">
+
+                <h:form id="transaction-form"  class="">
+
+                    <div class="row form-group">
+                        <div class="col-md-12 mb-3 mb-md-0">
+                            <h:inputHidden value="#{parkTransactionController.parkTransaction.park_id}"/>
+                            <label class="text-black" for="musteri">Müşteri</label>
+                            <h:selectOneMenu  class="select2_single form-control col-md-7 col-xs-12"  id="selectCustomer" value="#{parkTransactionController.parkTransaction.park_user}" converter="userConverter">
+                                <f:selectItem itemLabel="#{sessionScope.valid_user.user_name}" itemValue="#{sessionScope.valid_user}"></f:selectItem>
+                            </h:selectOneMenu> </div>
+                        <div class="col-md-5">
+                            <label class="text-black" for="soyad">Araç Plakası</label>
+                            <h:inputText class="form-control required " a:placeholder="örn:34 ABC 3455"   title="plaka" value="#{parkTransactionController.parkTransaction.park_car_name}"/>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-12 mb-3 mb-md-0">
+                            <label class="text-black" for="otopark">Otopark</label>
+                            <h:selectOneMenu class="select2_single form-control col-md-7 col-xs-12"  id="selectCarpark" value="#{parkTransactionController.parkTransaction.park_carpark}" converter="carparkConverter">
+                                <f:selectItems value="#{parkTransactionController.carparkController.clist}" var="carpark" itemValue="#{carpark}" itemLabel="#{carpark.carpark_name}"/>
+
+                            </h:selectOneMenu></div>
+                        <div class="col-md-12">
+                            <label class="text-black" for="soyad">Park Paketi</label>
+                            <h:selectOneMenu class="select2_single form-control col-md-7 col-xs-12"  id="selectParkPackage" value="#{parkTransactionController.parkTransaction.park_parkpackage}" converter="parkPackageConverter">
+                                <f:selectItems value="#{parkTransactionController.parkPackageController.plist}" var="parkPackage" itemValue="#{parkPackage}" itemLabel="#{parkPackage.parkpackage_name}-#{parkPackage.parkpackage_cost}₺(#{parkPackage.parkpackage_descritpion})"/>
+                            </h:selectOneMenu>  </div>
+                    </div>
+
+                    <div class="row form-group">
+
+                        <div class="col-md-12">
+                            <label class="text-black" for="email">Alınacak Hizmetler</label>
+                            <h:selectManyMenu style="height: 100px" value="#{parkTransactionController.parkTransaction.parkTransactionExtraServices}" styleClass="custom-select col-md-12 col-xs-12" converter="extraservicesConverter">
+                                <f:selectItems value="#{parkTransactionController.extraServicesController.elist}" var="extraServices" itemValue="#{extraServices}" itemLabel="#{extraServices.service_name}(#{extraServices.service_cost}₺)"/>
+                            </h:selectManyMenu> </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <h:commandButton  class="submit-form btn btn-primary btn-md text-white" value="Park Et" action="#{parkTransactionController.createFront}">
+                            </h:commandButton>
+
+                        </div>
+                    </div>
+
+
+                </h:form>
+
+            </div>
+        </section>
+
+
+
+
+        <section class="py-5 bg-image overlay-primary fixed overlay" style="background-image: url('resources/images/header2.jpg');">
+            <div class="container">
+                <div class="row mb-5 justify-content-center">
+                    <div class="col-md-7 text-center">
+                        <h2 class="section-title mb-2 text-white">İstatistiklerimiz</h2>
+                        <p class="lead text-white">Sizlere Daha iyi hizmet verebilmek için durmadan çalışıyoruz!</p>
+                    </div>
+                </div>
+                <div class="row pb-0 block__19738 section-counter">
+
+                    <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
+                        <div class="d-flex align-items-center justify-content-center mb-2">
+                            <strong class="number" data-number="1800">1500</strong>
+                        </div>
+                        <span class="caption">Günlük Misafir</span>
+                    </div>
+
+                    <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
+                        <div class="d-flex align-items-center justify-content-center mb-2">
+                            <strong class="number" data-number="95">%95</strong>
+                        </div>
+                        <span class="caption">Müşteri Memnuniyeti</span>
+                    </div>
+
+                    <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
+                        <div class="d-flex align-items-center justify-content-center mb-2">
+                            <strong class="number" data-number="287">286</strong>
+                        </div>
+                        <span class="caption">Hizmet Veren Otopark</span>
+                    </div>
+
+                    <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
+                        <div class="d-flex align-items-center justify-content-center mb-2">
+                            <strong class="number" data-number="500">500 bin</strong>
+                        </div>
+                        <span class="caption">Abone</span>
+                    </div>
+
+
+                </div>
+            </div>
+        </section>
+
+        <section class="site-section services-section bg-light block__62849" id="services">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-6 col-md-6 col-lg-4 mb-4 mb-lg-5">
+
+                        <a class="block__16443 text-center d-block">
+                            <span class="custom-icon mx-auto"><span class="icon-calendar d-block"></span></span>
+                            <h3>Araç Park Hizmeti</h3>
+                            <p>Size özel ayrılan alanlara araçlarınızı park ediyoruz.</p>
+                        </a>
+
+                    </div>
+                    <div class="col-6 col-md-6 col-lg-4 mb-4 mb-lg-5">
+
+                        <a  class="block__16443 text-center d-block">
+                            <span class="custom-icon mx-auto"><span class="icon-line-streetsign d-block"></span></span>
+                            <h3>Vale Hizmeti</h3>
+                            <p>Aracınız bulunduğunuz yerden alıp,isteklerinizi tamamladıktan sonra yine istediğiniz yere bırakıyoruz</p>
+                        </a>
+
+                    </div>
+                    <div class="col-6 col-md-6 col-lg-4 mb-4 mb-lg-5">
+
+                        <a  class="block__16443 text-center d-block">
+                            <span class="custom-icon mx-auto"><span class="icon-check d-block"></span></span>
+                            <h3>Yıkama/Pasta-Cila Hizmeti</h3>
+                            <p>Misafirin başımızın üstünde yeri vardır! Aracınızı size ilk günki gibi teslim ederiz!</p>
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+        </section>
+
+
+
+
+        <section class="site-section py-4 mb-5 border-top">
+            <div class="container">
+
+                <div class="row align-items-center">
+                    <div class="col-12 text-center mt-4 mb-5">
+                        <div class="row justify-content-center">
+                            <div class="col-md-7">
+                                <h2 class="section-title mb-2">İş Ortaklarımız</h2>
+                                <p class="lead">CarXpark Olarak Birçok kurumsal firma ile birlik olup sizler için çalışmaktayız!</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-6 col-lg-3 col-md-6 text-center">
+                        <img src="resources/images/sonax.svg" alt="Image" class="img-fluid logo-1"></img>
+                    </div>
+                    <div class="col-6 col-lg-3 col-md-6 text-center">
+                        <img src="resources/images/audi.png" alt="Image" class="img-fluid logo-2"></img>
+                    </div>
+                    <div class="col-6 col-lg-3 col-md-6 text-center">
+                        <img src="resources/images/inonu.png" alt="Image" class="img-fluid logo-3"></img>
+                    </div>
+                    <div class="col-6 col-lg-3 col-md-6 text-center">
+                        <img src="resources/images/visa.png" alt="Image" class="img-fluid logo-4"></img>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+        <section id="contact" class="py-5 bg-image overlay-primary fixed overlay" style="background-image: url('resources/images/managePanel.jpg');">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h2 class="text-white">Bize Ulaşın</h2>
+                        <p class="mb-0 text-white lead">7/24 destek hattımızla her an yanınızdayız.
+                        </p>
+                    </div>
+                    <div class="col-md-3 ml-auto">
+                        <a  class="btn btn-warning btn-block btn-lg">0850 234 56 78</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </ui:define>
+</ui:composition>
+
+
+
+
+
+
