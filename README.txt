@@ -38,10 +38,6 @@ b-)HTML validator;(5 puan)
 -Bean validator gibi 1 sayfada kullanılmıştır.İsterseniz çoğaltabilirsiniz.
 
 
-Not:Html validator ile Bean validator arasındaki fark;
--Bean validator Java üzerinde methodlar yazılarak custom oluşturulur.
--HTML validator ise html'in bize sunmuş olduğu etiketler(tag) ile hazır olarak oluşturulur. 
-
 *Pagination İşleminin Yapılması(10 puan); Yapıldı✓
 -Gerekli olan tüm html sayfaları için pagination yapılmıştır(back end tarafında)
 
